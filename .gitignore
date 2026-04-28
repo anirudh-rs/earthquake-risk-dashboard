@@ -26,3 +26,14 @@ data/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Reverse geocoder cache
+rg.conf
+temp_rg_*
+
+# Don't commit large data exports or cached API responses
+data/*.csv
+data/*.json
+
+# Environment variables
+.env

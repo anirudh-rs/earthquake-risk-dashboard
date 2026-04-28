@@ -12,6 +12,10 @@ import pandas as pd
 from datetime import datetime, timedelta
 from typing import Optional
 
+class QueryTooLargeError(Exception):
+    """Raised when a USGS query exceeds the 20,000-event hard cap."""
+    pass
+
 
 USGS_BASE_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query"
 USGS_HARD_LIMIT = 20000  # USGS will silently truncate beyond this
@@ -58,7 +62,16 @@ def fetch_earthquakes(
     }
 
     response = requests.get(USGS_BASE_URL, params=params, timeout=timeout)
-    response.raise_for_status()  # raises on 4xx/5xx
+
+    # Special handling for 400 Bad Request — usually means the query
+    # would return more than USGS's 20,000-event hard cap.
+    if response.status_code == 400:
+        raise QueryTooLargeError(
+            f"USGS rejected the query — your selection would likely return more than "
+            f"{USGS_HARD_LIMIT:,} events. Narrow the date range or raise the magnitude threshold."
+        )
+
+    response.raise_for_status()
 
     data = response.json()
 

@@ -133,24 +133,41 @@ def _assign_depth_category(depth_km: float) -> str:
     return "Deep"  # anything >= 1000km (rare)
 
 
+# Module-level coordinate cache. Keyed by (rounded_lat, rounded_lon).
+# Rounding to 1 decimal means coords within ~11km share a result, which is
+# fine — country boundaries don't change at that scale. Massive perf win
+# for repeated queries that share many events (e.g. expanding a date range).
+_GEOCODE_CACHE: dict = {}
+
+
 def _enrich_with_country(df: pd.DataFrame) -> pd.DataFrame:
     """
     Use offline reverse_geocoder to add country_code, country_name, and continent.
 
-    reverse_geocoder is fast (offline, vectorized) and accurate for land-based events.
-    For offshore earthquakes (most subduction zones), the nearest land country is returned —
-    which is actually what we want for risk context (the nearest populated landmass).
+    Caches per-coordinate (rounded to 1 decimal) so repeat queries are nearly free.
+    Only uncached coordinates hit reverse_geocoder.search().
     """
-    coords = list(zip(df["latitude"].astype(float), df["longitude"].astype(float)))
+    # Round coordinates for caching — 0.1° ≈ 11km, well below country resolution
+    rounded_coords = list(zip(
+        df["latitude"].round(1).astype(float),
+        df["longitude"].round(1).astype(float),
+    ))
 
-    # mode=2 is multi-threaded; mode=1 is single-threaded (we use 1 to avoid Streamlit Cloud issues)
-    results = rg.search(coords, mode=1)
+    # Find which coordinates we haven't seen before
+    uncached = [c for c in set(rounded_coords) if c not in _GEOCODE_CACHE]
 
-    df["country_code"] = [r.get("cc", "") for r in results]
+    if uncached:
+        # Only geocode the uncached coordinates
+        new_results = rg.search(uncached, mode=1)
+        for coord, result in zip(uncached, new_results):
+            _GEOCODE_CACHE[coord] = result.get("cc", "")
+
+    # Look up every event's country code from the cache
+    country_codes = [_GEOCODE_CACHE.get(c, "") for c in rounded_coords]
+
+    df["country_code"] = country_codes
     df["country_name"] = df["country_code"].apply(_iso2_to_name)
     df["continent"] = df["country_code"].apply(_iso2_to_continent)
-
-    # Region for grouping: "country (continent)" or just country
     df["region"] = df["country_name"].fillna("Unknown")
 
     return df

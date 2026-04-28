@@ -92,17 +92,43 @@ def score_regions(
     base = base.drop(columns=["count_norm", "mag_norm", "sig_norm", "shallow_norm"])
 
     # Attach baseline anomaly flag if available
+    # Attach baseline anomaly flag if the baseline is statistically meaningful.
+    # Two guards:
+    #   1. The current window must not be much longer than the baseline window
+    #      (otherwise we're comparing very different sample sizes).
+    #   2. Each country needs at least ~5 baseline events for the rate to be stable.
     if baseline_df is not None and not baseline_df.empty:
-        comparison = analytics.compare_to_baseline(
-            current_df=df,
-            baseline_df=baseline_df,
-            current_window_days=current_window_days,
-            baseline_window_days=baseline_window_days,
-        )
-        flag_lookup = dict(zip(comparison["country_name"], comparison["anomaly_flag"]))
-        deviation_lookup = dict(zip(comparison["country_name"], comparison["deviation_pct"]))
-        base["anomaly_flag"] = base["country_name"].map(flag_lookup).fillna("No baseline")
-        base["deviation_pct"] = base["country_name"].map(deviation_lookup)
+        # Guard 1 — if current window is more than 2x the baseline, skip
+        window_ratio_too_large = current_window_days > baseline_window_days * 2
+
+        if window_ratio_too_large:
+            base["anomaly_flag"] = "Baseline N/A (window too long)"
+            base["deviation_pct"] = None
+        else:
+            comparison = analytics.compare_to_baseline(
+                current_df=df,
+                baseline_df=baseline_df,
+                current_window_days=current_window_days,
+                baseline_window_days=baseline_window_days,
+            )
+
+            # Guard 2 — only trust deviations where baseline has ≥5 events
+            baseline_event_counts = baseline_df["country_name"].value_counts()
+
+            flag_lookup = {}
+            deviation_lookup = {}
+            for _, row in comparison.iterrows():
+                country = row["country_name"]
+                baseline_n = baseline_event_counts.get(country, 0)
+                if baseline_n < 5:
+                    flag_lookup[country] = "Insufficient baseline"
+                    deviation_lookup[country] = None
+                else:
+                    flag_lookup[country] = row["anomaly_flag"]
+                    deviation_lookup[country] = row["deviation_pct"]
+
+            base["anomaly_flag"] = base["country_name"].map(flag_lookup).fillna("No baseline")
+            base["deviation_pct"] = base["country_name"].map(deviation_lookup)
 
     # Add a per-row plain-English summary
     base["summary"] = base.apply(_build_region_summary, axis=1)

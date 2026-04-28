@@ -1,0 +1,481 @@
+/* ============================================================
+   Mission Control — Custom Styles
+   Earthquake Risk & Seismic Activity Dashboard
+   ============================================================ */
+
+/* ---- Web fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ---- Root variables ---- */
+:root {
+    --bg-base: #0a0e1a;
+    --bg-surface: #141a26;
+    --bg-elevated: #1c2333;
+    --border: #2a3447;
+    --text-primary: #e8ecf4;
+    --text-secondary: #8b96a8;
+    --text-tertiary: #5c6577;
+    --accent-cyan: #06d6f7;
+    --accent-cyan-dim: #0891a8;
+    --risk-low: #4ade80;
+    --risk-moderate: #fbbf24;
+    --risk-high: #fb923c;
+    --risk-severe: #ef4444;
+    --risk-critical: #dc2626;
+}
+
+/* ---- Global ---- */
+.stApp {
+    background: var(--bg-base);
+    font-family: 'Inter', sans-serif;
+}
+
+/* ---- Headers in mono ---- */
+h1, h2, h3, h4 {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    font-size: 2rem !important;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.5rem !important;
+}
+
+h2 {
+    font-size: 1.25rem !important;
+    color: var(--text-primary);
+    margin-top: 2rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+h3 {
+    font-size: 1rem !important;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500 !important;
+}
+
+/* ---- Sidebar styling ---- */
+section[data-testid="stSidebar"] {
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border);
+}
+
+section[data-testid="stSidebar"] .stMarkdown h2 {
+    font-size: 0.875rem !important;
+    color: var(--accent-cyan) !important;
+    letter-spacing: 0.1em;
+    margin-top: 1rem !important;
+}
+
+/* ---- KPI cards ---- */
+.kpi-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent-cyan);
+    padding: 1.25rem 1.5rem;
+    height: 100%;
+    overflow: visible;
+    min-width: 0;
+}
+
+.kpi-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+}
+
+.kpi-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.kpi-value-small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    word-break: break-word;
+    overflow: hidden;
+}
+
+.kpi-sublabel {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---- Risk pills ---- */
+.risk-pill {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.risk-pill-low { background: rgba(74, 222, 128, 0.12); color: var(--risk-low); border: 1px solid var(--risk-low); }
+.risk-pill-moderate { background: rgba(251, 191, 36, 0.12); color: var(--risk-moderate); border: 1px solid var(--risk-moderate); }
+.risk-pill-high { background: rgba(251, 146, 60, 0.12); color: var(--risk-high); border: 1px solid var(--risk-high); }
+.risk-pill-severe { background: rgba(239, 68, 68, 0.12); color: var(--risk-severe); border: 1px solid var(--risk-severe); }
+
+/* ---- Live indicator ---- */
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* ---- Buttons ---- */
+.stButton > button {
+    background: transparent;
+    border: 1px solid var(--accent-cyan) !important;
+    color: var(--accent-cyan) !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 2px !important;
+    padding: 0.4rem 1rem !important;
+    transition: all 0.15s ease;
+}
+
+/* Compact buttons in sidebar (preset date range selectors) */
+section[data-testid="stSidebar"] .stButton > button {
+    font-size: 0.72rem !important;
+    padding: 0.25rem 0.25rem !important;
+    letter-spacing: 0.05em;
+}
+
+.stButton > button:hover {
+    background: var(--accent-cyan) !important;
+    color: var(--bg-base) !important;
+}
+
+/* ---- Date / number inputs ---- */
+.stDateInput input, .stNumberInput input, .stTextInput input {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 2px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    color: var(--text-primary) !important;
+}
+
+/* ---- Slider ---- */
+.stSlider [data-baseweb="slider"] {
+    color: var(--accent-cyan);
+}
+
+/* ---- Dataframe / tables ---- */
+.stDataFrame {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+}
+
+/* ---- Hide Streamlit branding chrome ---- */
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
+header[data-testid="stHeader"] { background: transparent; }
+
+/* ---- Section dividers ---- */
+.section-divider {
+    border-top: 1px solid var(--border);
+    margin: 2rem 0 1rem 0;
+    padding-top: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+/* ---- Narrative bullets ---- */
+.narrative-bullet {
+    padding: 0.75rem 1rem;
+    background: var(--bg-surface);
+    border-left: 2px solid var(--accent-cyan-dim);
+    margin-bottom: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+/* ---- Scrollbar (webkit only — Chrome, Edge, Safari) ---- */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan-dim); }
+
+/* ============================================================
+   Spinner styling — matches Mission Control aesthetic
+   ============================================================ */
+
+[data-testid="stSpinner"] {
+    background: var(--bg-surface);
+    border-left: 2px solid var(--accent-cyan);
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+}
+
+[data-testid="stSpinner"] > div {
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.95rem !important;
+}
+
+/* The spinner icon itself — recolor to our cyan accent */
+[data-testid="stSpinner"] svg {
+    color: var(--accent-cyan) !important;
+    fill: var(--accent-cyan) !important;
+}
+
+/* Hide the default circle, replace with a pulsing dot to match our live indicator */
+[data-testid="stSpinner"] svg circle {
+    stroke: var(--accent-cyan) !important;
+}
+
+/* ============================================================
+   Map render note — persistent caption
+   ============================================================ */
+
+.map-note {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    background: var(--bg-surface);
+    border-left: 2px solid var(--text-tertiary);
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+.map-note strong {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* ============================================================
+   Error message styling
+   ============================================================ */
+
+[data-testid="stAlert"] {
+    background: rgba(239, 68, 68, 0.08) !important;
+    border: 1px solid var(--risk-severe) !important;
+    border-left: 3px solid var(--risk-severe) !important;
+    border-radius: 2px !important;
+    color: var(--text-primary) !important;
+}
+
+[data-testid="stAlert"] p {
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+[data-testid="stAlert"] strong {
+    color: var(--risk-severe) !important;
+    font-family: 'JetBrains Mono', monospace !important;
+}
+
+/* ============================================================
+   Plotly toolbar styling
+   ============================================================ */
+
+/* Toolbar container */
+.modebar-container {
+    background: transparent !important;
+}
+
+.modebar {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 2px !important;
+    padding: 2px 4px !important;
+}
+
+/* Toolbar buttons — recolor icons to match our palette */
+.modebar-btn path {
+    fill: var(--text-tertiary) !important;
+    transition: fill 0.15s ease;
+}
+
+.modebar-btn:hover path {
+    fill: var(--accent-cyan) !important;
+}
+
+.modebar-btn.active path {
+    fill: var(--accent-cyan) !important;
+}
+
+/* ============================================================
+   Risk report table
+   ============================================================ */
+
+.risk-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    margin: 0.5rem 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.risk-table thead th {
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.risk-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s ease;
+}
+
+.risk-table tbody tr:hover {
+    background: var(--bg-elevated);
+}
+
+.risk-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.risk-table td {
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+/* Country name column */
+.risk-table .rr-country {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Numeric columns — mono font, right-aligned */
+.risk-table .rr-num {
+    font-family: 'JetBrains Mono', monospace !important;
+    text-align: right;
+    color: var(--text-primary);
+}
+
+/* Risk score gets slightly larger emphasis */
+.risk-table .rr-score {
+    font-weight: 600;
+    color: var(--accent-cyan);
+}
+
+/* Make the table scroll horizontally on narrow screens instead of breaking */
+@media (max-width: 768px) {
+    .risk-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.dashboard-footer {
+    margin-top: 4rem;
+    padding: 2rem 0 1rem 0;
+    border-top: 1px solid var(--border);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+}
+
+.footer-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.footer-link {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

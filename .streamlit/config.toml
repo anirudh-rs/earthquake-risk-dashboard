@@ -1,0 +1,25 @@
+[theme]
+# Mission Control base theme — sets the foundation for every Streamlit element.
+# Custom CSS in assets/styles.css refines specific components further.
+
+base = "dark"
+
+# Backgrounds
+backgroundColor = "#0a0e1a"
+secondaryBackgroundColor = "#141a26"
+
+# Text
+textColor = "#e8ecf4"
+
+# Primary accent — used for buttons, focus states, active widgets
+primaryColor = "#06d6f7"
+
+# Fonts — sans for body. Mono is applied via custom CSS for headers/numbers.
+font = "sans serif"
+
+[server]
+# Suppresses the Streamlit "share" badge and dev-mode banners
+headless = true
+
+[browser]
+gatherUsageStats = false
