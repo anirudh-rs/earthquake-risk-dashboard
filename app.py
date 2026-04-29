@@ -44,6 +44,10 @@ from components.risk_brief import (
 )
 from src.risk_report import score_regions, generate_notable_events_narrative
 
+# Safe defaults — used during reruns triggered by preset buttons
+# before sidebar widgets have fully rendered
+min_magnitude = 4.5
+
 # Plotly chart config — shared across all charts in the dashboard.
 # We KEEP the modebar (zoom box, pan, reset, download) because it's genuinely useful
 # for time-series and distribution analysis. We hide just the "Edit in Plotly" link
