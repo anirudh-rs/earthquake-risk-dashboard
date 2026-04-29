@@ -44,9 +44,11 @@ from components.risk_brief import (
 )
 from src.risk_report import score_regions, generate_notable_events_narrative
 
-# Safe defaults — used during reruns triggered by preset buttons
-# before sidebar widgets have fully rendered
+# Safe defaults for all sidebar-derived variables
 min_magnitude = 4.5
+start_date = datetime.utcnow().date() - timedelta(days=30)
+end_date = datetime.utcnow().date()
+window_days = 30
 
 # Plotly chart config — shared across all charts in the dashboard.
 # We KEEP the modebar (zoom box, pan, reset, download) because it's genuinely useful
