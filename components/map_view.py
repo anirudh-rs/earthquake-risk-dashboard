@@ -54,12 +54,21 @@ def build_map(
     m = folium.Map(
         location=[15, 30],
         zoom_start=2,
-        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+        tiles=None,
         attr="Esri",
         prefer_canvas=True,
         worldCopyJump=True,
         attributionControl=False,
     )
+
+    folium.TileLayer(
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+        attr="Esri",
+        name="Basemap",
+        show=True,
+        overlay=False,
+        control=False,
+    ).add_to(m)
 
     # Layer 1: Earthquake markers
     _add_earthquake_markers(m, df)
