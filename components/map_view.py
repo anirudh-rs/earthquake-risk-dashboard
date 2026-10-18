@@ -55,9 +55,10 @@ def build_map(
         location=[15, 30],
         zoom_start=2,
         tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-        attr="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
+        attr="Esri",
         prefer_canvas=True,
         worldCopyJump=True,
+        attributionControl=False,
     )
 
     # Layer 1: Earthquake markers
