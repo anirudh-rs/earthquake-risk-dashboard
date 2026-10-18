@@ -401,10 +401,11 @@ plate_path = Path(__file__).parent / "assets" / "tectonic_plates.geojson"
 # into when that's actually finished, so we tell the user upfront.
 st.markdown(
     "<div class='map-note'>"
-    "<strong>Note:</strong> The map renders in your browser and may take a few seconds "
+    "<strong>Note:</strong> the map renders in your browser and may take a few seconds "
     "to fully paint after the loading indicator disappears, especially for large date "
     "ranges or low magnitude thresholds. This is normal — the Python pipeline finishes "
-    "before the browser is done drawing all markers."
+    "before the browser is done drawing all markers. "
+    "Basemap &copy; Esri."
     "</div>",
     unsafe_allow_html=True,
 )
