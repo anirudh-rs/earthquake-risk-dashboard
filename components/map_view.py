@@ -54,10 +54,10 @@ def build_map(
     m = folium.Map(
         location=[15, 30],
         zoom_start=2,
-        tiles="CartoDB dark_matter",  # matches our dark theme
-        attr="© OpenStreetMap, © CartoDB",
-        prefer_canvas=True,  # major perf boost when rendering many markers
-        worldCopyJump=True,  # smooth scrolling across the antimeridian
+        tiles="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
+        attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        prefer_canvas=True,
+        worldCopyJump=True,
     )
 
     # Layer 1: Earthquake markers
